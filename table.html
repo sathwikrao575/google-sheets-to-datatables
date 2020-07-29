@@ -1,0 +1,67 @@
+
+/*!
+ * 
+ * Google Sheets To Datatables 1.0 By SKZ
+ * 
+ * To use, simply replace the "1mDxMcfjA3Gi3K5R48pDKRDHuHqTinc4q5A-WNcy1zpc" value in the
+ * URL below in line 18 with your own unique Google document ID (you'll get from spreadsheets link) 
+ * By default this will display contents in sheet 1 for next sheets replace number next to unique id with sheet number
+ * The Google document's must be published for that goto: File > "Publish to web" and click "Publish"
+ * 
+ */
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+<script type="text/javascript">// coindcx
+$(document).ready(function() {
+    var results = [];
+    var url = "https://spreadsheets.google.com/feeds/list//1mDxMcfjA3Gi3K5R48pDKRDHuHqTinc4q5A-WNcy1zpc/1/public/values?alt=json"; //replace this
+    
+    var jqxhr = $.getJSON(url, function() {
+        console.log( "success" );
+	})
+  	.done(function(data) {
+    	console.log( "second success" );
+        var entry = data.feed.entry;
+ 		$(entry).each(function(){
+    	// Column names are name, age, etc.
+    		//results.push({"Id" : this.gsx$id.$t , "Name" : this.gsx$name.$t, "Country" : this.gsx$country.$t, "Department" : this.gsx$dept.$t});
+
+            results.push([ this.gsx$age.$t,  this.gsx$name.$t, this.gsx$country.$t, this.gsx$dept.$t]);
+  		});
+	    var table = $('#example_table').DataTable( {
+    		order: [ 3, "desc" ],
+
+    		scrollY:        "200px",
+        
+        scrollCollapse: true,
+        paging:         false,
+       "info": false,
+    	"searching": false,
+    		data: results,
+        columns: [
+            { title: "Age" },
+            { title: "Name" },
+            { title: "Country" },
+            { title: "Department"}
+        ]
+               
+    	}
+
+    	);
+  	})
+
+  	.fail(function() {
+    	console.log( "error" );
+  	})
+  	.always(function() {
+    	console.log( "complete" );
+  	});
+});
+
+</script>
+ </head>  
+
+<body>
+  <table id="example_table" class="display"  style="width:100%"> </table>
+</body>

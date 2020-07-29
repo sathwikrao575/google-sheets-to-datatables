@@ -12,10 +12,11 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 <script type="text/javascript">// coindcx
 $(document).ready(function() {
     var results = [];
-    var url = "https://spreadsheets.google.com/feeds/list//1mDxMcfjA3Gi3K5R48pDKRDHuHqTinc4q5A-WNcy1zpc/1/public/values?alt=json"; //replace this
+    var url = "https://spreadsheets.google.com/feeds/list/1mDxMcfjA3Gi3K5R48pDKRDHuHqTinc4q5A-WNcy1zpc/1/public/values?alt=json"; //replace this
     
     var jqxhr = $.getJSON(url, function() {
         console.log( "success" );
@@ -29,15 +30,14 @@ $(document).ready(function() {
 
             results.push([ this.gsx$age.$t,  this.gsx$name.$t, this.gsx$country.$t, this.gsx$dept.$t]);
   		});
-	    var table = $('#example_table').DataTable( {
+	    var table = $('#example').DataTable( {
     		order: [ 3, "desc" ],
 
-    		scrollY:        "200px",
         
         scrollCollapse: true,
-        paging:         false,
-       "info": false,
-    	"searching": false,
+        paging:         true,
+       "info": true,
+    	"searching": true,
     		data: results,
         columns: [
             { title: "Age" },
@@ -63,5 +63,5 @@ $(document).ready(function() {
  </head>  
 
 <body>
-  <table id="example_table" class="display"  style="width:100%"> </table>
+  <table id="example" class="display"  style="width:100%"> </table>
 </body>
